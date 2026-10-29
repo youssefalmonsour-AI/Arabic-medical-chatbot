@@ -1,76 +1,58 @@
-Sure! Here’s a professional English version of the README.md for your Arabic Medical Chatbot graduation project:
+# Arabic Medical Chatbot
 
-⸻
+A lightweight Arabic medical Q&A chatbot built with semantic retrieval and FAISS.
 
- Arabic Medical Chatbot
+## Project status
 
-An Arabic-language AI-powered medical assistant
- Graduation Project – Faculty of Computers and Information
- Selected as one of the top graduation projects of 2025
+This repository was cleaned up and made easier to run from a standard Python project layout.
 
-⸻
+## Quick start
 
- Project Description
+1. Install dependencies:
+   ```bash
+   python -m pip install -r requirements.txt
+   ```
 
-Arabic Medical Chatbot is an AI-based system designed to answer medical questions in Arabic using semantic retrieval techniques.
-The chatbot provides quick and informative responses to health-related queries based on a large medical knowledge base.
+2. Generate or place the embedding files if they are missing:
+   ```bash
+   python scripts/build_faiss_index.py
+   ```
 
-⸻
+3. Start the API:
+   ```bash
+   python app.py
+   ```
 
- Main Components
- •  Medical Knowledge Base: Over 800,000 Arabic medical Q&A pairs.
- •  Embedding Model: SBERT-based sentence transformer for semantic representation.
- •  FAISS Index: For fast similarity search and retrieval of relevant answers.
- •  Flask API: A lightweight web server for sending questions and receiving answers.
+4. Test the endpoint:
+   ```bash
+   curl -X POST http://localhost:4000/predict \
+     -H "Content-Type: application/json" \
+     -d '{"question":"ما هو علاج ارتفاع ضغط الدم؟"}'
+   ```
 
-⸻
+## Structure
 
- Getting Started
-
-1. Install Requirements
-pip install -r requirements.txt
-2. Run the Flask API
-cd app
-python app.py
-3. Example API Request
-POST http://localhost:5000/predict/
-Content-Type: application/json
-
-{
-  "question": "ما هو علاج ارتفاع ضغط الدم؟"
-}
-4. Example API Response
-{
-  "response": {
-    "input": "ما هو علاج ارتفاع ضغط الدم؟",
-    "output": "يجب متابعة ضغط الدم بانتظام، تقليل الملح، ممارسة الرياضة، وتناول أدوية الضغط تحت إشراف الطبيب."
-  }
-}
-Project Structure
-Arabic-medical-chatbot/
-├── app/                  ← Flask API source code
+```text
+.
+├── app/
+│   ├── __init__.py
 │   ├── app.py
-│   ├── utils.py
-│   └── config.py
-│
-├── embeddings/           ← FAISS index and question embeddings
-│   ├── faiss_index.bin
-│   └── medical_questions.npy
-│
-├── models/               ← Pretrained SBERT model
-│   └── sbert_model/
-│
-├── notebooks/            ← Jupyter Notebooks for data preparation & model training
-│   ├── 01_prepare_data.ipynb
-│   ├── 02_train_generator.ipynb
-│   └── 03_build_faiss_index.ipynb
-│
+│   ├── config.py
+│   └── utils.py
+├── scripts/
+│   └── build_faiss_index.py
+├── data/
+├── embeddings/
+├── app.py
+├── config.py
+├── utils.py
 ├── requirements.txt
-└── README.md
-Disclaimer
+├── README.md
+└── conversations.json
+```
 
-This chatbot is not a replacement for professional medical advice. It is intended for educational and research purposes only.
-Contact
- • GitHub: youssefalmonsour-AI
- • Email: youssefalmonsour222@gmail.com
- 
+## Notes
+
+- The app expects the generated FAISS index and the cleaned medical Q&A CSV to be available under `embeddings/` and `data/`.
+- If the files are missing, the API returns a clear error and tells you which command to run.
+- The old duplicate root/app layout is kept for compatibility, while the real project code now lives under `app/`.
